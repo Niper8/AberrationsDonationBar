@@ -1,0 +1,64 @@
+<head>
+    <style>
+        #progress-container {
+            width: 100%;
+            background-color: #f3f3f3;
+            border-radius: 25px;
+            overflow: hidden;
+        }
+        #progress-bar {
+            height: 50px;
+            width: 0;
+            background-color: #4caf50;
+            transition: width 0.5s; /* Smooth transition */
+        }
+        .label-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px; /* Space between progress bar and labels */
+        }
+    </style>
+</head>
+<body>
+<div id="progress-container">
+    <div id="progress-bar"></div>
+</div>
+<div class="label-container">
+    <div id="current-amount">£0</div>
+    <div id="target-amount">£12,000</div>
+</div>
+
+<script>
+    const targetAmount = 12000;
+
+    window.onload = function() {
+        fetch('https://4f6jgpyp.run.nodescript.dev/gofundme')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.text(); // Use text() for raw data
+            })
+            .then(data => {
+                const amount = parseFloat(data); // Convert to a number
+                if (!isNaN(amount)) {
+                    updateProgressBar(amount);
+                } else {
+                    document.getElementById('data').innerText = 'Invalid amount received.';
+                }
+            })
+            .catch(error => {
+                document.getElementById('data').innerText = 'Error: ' + error.message;
+            });
+    };
+
+    function updateProgressBar(amount) {
+        const progressBar = document.getElementById('progress-bar');
+        const currentAmountLabel = document.getElementById('current-amount');
+        const percentage = Math.min((amount / targetAmount) * 100, 100); // Cap at 100%
+        progressBar.style.width = percentage + '%';
+        currentAmountLabel.innerText = `£${amount}`; // Display the current amount
+    }
+</script>
+
+</body>
