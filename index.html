@@ -65,7 +65,7 @@
         const currentAmountLabel = document.getElementById('current-amount');
         const percentage = Math.min((amount / targetAmount) * 100, 100); // Cap at 100%
         progressBar.style.width = percentage + '%';
-        currentAmountLabel.innerText = `£${amount}`; // Display the current amount
+        currentAmountLabel.innerText = `£${amount} | ${percentage}%`; // Display the current amount
         if (amount >= targetAmount) {
             progressBar.style.backgroundColor = "#f3b563";
         }
